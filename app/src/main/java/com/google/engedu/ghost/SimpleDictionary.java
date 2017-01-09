@@ -61,7 +61,31 @@ public class SimpleDictionary implements GhostDictionary {
      */
     @Override
     public boolean isWord(String word) {
-        return words.contains(word);
+
+        int high = words.size();
+        int low = 0;
+
+        while (low <= high) {
+
+            int mid = (low + high) / 2;
+            int compare = word.compareTo(words.get(mid));
+
+            //if string is the same
+            if (compare < 0) {
+                high = mid - 1;
+            }
+
+            else if (compare > 0) {
+                low = mid + 1;
+            }
+
+            else
+                return true;
+        }
+
+        return false;
+
+        //return words.contains(word);
     }
 
     /**
@@ -74,6 +98,31 @@ public class SimpleDictionary implements GhostDictionary {
     @Override
     public String getAnyWordStartingWith(String prefix) throws NoSuchElementException {
         // TODO(you): Implement using Binary Search
+
+        //a.compareTo(b)
+        int high = words.size()-1;
+        int low = 0;
+
+        //don and done
+        while (low<= high){
+
+            int mid = (low + high)/2;
+            int compare = prefix.compareTo(words.get(mid));
+
+            //if string is the same
+            if (words.get(mid).startsWith(prefix))
+                return words.get(mid);
+
+            else {
+
+                if (compare < 0) {
+                    high = mid - 1;
+                } else if (compare > 0) {
+                    low = mid + 1;
+                }
+            }
+        }
+
         return null;
     }
 
@@ -88,8 +137,42 @@ public class SimpleDictionary implements GhostDictionary {
      */
     @Override
     public String getGoodWordStartingWith(String prefix) {
+
         String selected = null;
         // TODO(you): Implement using Binary Search + some special magic
+
+        int high = words.size()-1;
+        int low = 0;
+
+        //don and done
+        while (low<= high){
+
+            int mid = (low + high)/2;
+            int compare = prefix.compareTo(words.get(mid));
+
+            //if string is the same
+            if (words.get(mid).startsWith(prefix)){
+
+                if (words.get(mid--).length() %2 == 0)
+                    return words.get(mid--);
+                else if(words.get(mid++).length() %2 == 0)
+                    return words.get(mid++);
+                else
+                    return words.get(mid);
+
+                }
+                //words.get(mid);
+
+            else {
+
+                if (compare < 0) {
+                    high = mid - 1;
+                } else if (compare > 0) {
+                    low = mid + 1;
+                }
+            }
+        }
+
         return selected;
     }
 
